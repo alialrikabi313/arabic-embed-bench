@@ -2,6 +2,10 @@
 
 A small CLI that answers one question: **which embedding model retrieves best on *your* Arabic documents?** Give it a corpus and questions with evidence quotes; it reports Hit@k, MRR with bootstrap confidence intervals, and encoding time per model.
 
+[![tests](https://github.com/alialrikabi313/arabic-embed-bench/actions/workflows/test.yml/badge.svg)](https://github.com/alialrikabi313/arabic-embed-bench/actions/workflows/test.yml)
+
+> **TL;DR** — `e5-small` matches `bge-m3` on Arabic retrieval within error at ~9× less encode time; a paraphrase model is far worse. Run the same comparison on your own documents.
+
 ## Why not just read MTEB?
 
 Leaderboards average over tasks and languages. Retrieval quality on your own Arabic text (MSA, dialect-heavy, religious, legal…) can rank models differently, and a model's required prompt prefixes silently change results — `multilingual-e5` needs `query: ` / `passage: `, and omitting them degrades accuracy without any error. This tool bakes the prefixes into `config.MODEL_SPECS` and a test guards them.
