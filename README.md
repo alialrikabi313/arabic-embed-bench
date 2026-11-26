@@ -8,16 +8,16 @@ Leaderboards average over tasks and languages. Retrieval quality on your own Ara
 
 ## Example result
 
-Arabic Wikipedia sample from [arabic-rag-bench](https://github.com/alialrikabi313/arabic-rag-bench) — 40 articles, 130 paragraph chunks, 80 LLM-generated questions:
+Arabic Wikipedia sample from [arabic-rag-bench](https://github.com/alialrikabi313/arabic-rag-bench) — 227 articles, 1,096 paragraph chunks, 442 LLM-generated questions:
 
 | Model | Dim | Encode s | Hit@1 | Hit@3 | Hit@5 | MRR | MRR 95% CI |
 |---|---|---|---|---|---|---|---|
-| BAAI/bge-m3 | 1024 | 3.1 | 0.838 | 0.950 | 0.988 | 0.895 | 0.84–0.95 |
-| intfloat/multilingual-e5-small | 384 | 0.4 | 0.825 | 0.938 | 0.963 | 0.884 | 0.82–0.94 |
-| intfloat/multilingual-e5-base | 768 | 0.7 | 0.812 | 0.950 | 0.975 | 0.880 | 0.82–0.93 |
-| paraphrase-multilingual-MiniLM-L12-v2 | 384 | 0.2 | 0.613 | 0.787 | 0.825 | 0.719 | 0.64–0.80 |
+| intfloat/multilingual-e5-base | 768 | 66 | 0.790 | 0.930 | 0.957 | 0.865 | 0.84–0.89 |
+| BAAI/bge-m3 | 1024 | 230 | 0.792 | 0.932 | 0.955 | 0.863 | 0.84–0.89 |
+| intfloat/multilingual-e5-small | 384 | 26 | 0.796 | 0.914 | 0.939 | 0.861 | 0.83–0.89 |
+| paraphrase-multilingual-MiniLM-L12-v2 | 384 | 7 | 0.333 | 0.514 | 0.572 | 0.448 | 0.41–0.49 |
 
-**Reading it honestly:** the top three are statistically indistinguishable at this sample size (overlapping CIs). The practical finding is that `e5-small` (384-d, ~8× faster to encode) matches `bge-m3` here, while the paraphrase MiniLM model is clearly worse for retrieval. Encode times are on a GPU and cover chunks + questions; treat them as relative.
+**Reading it honestly:** the top three are statistically indistinguishable (MRR intervals overlap almost entirely; Hit@1 differs by 0.006). The practical finding is that `e5-small` (384-d) matches `bge-m3` here at roughly **9× less encoding time**, while the paraphrase MiniLM model is far worse for retrieval — it is trained for sentence similarity, not question→passage search. Encode seconds are wall-clock for chunks + questions on a laptop that was busy with other jobs: trust the ratios, not the absolute values.
 
 ## Use
 
