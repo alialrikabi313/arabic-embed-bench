@@ -26,7 +26,7 @@ Arabic Wikipedia sample from [arabic-rag-bench](https://github.com/alialrikabi31
 ## Use
 
 ```bash
-pip install "arabic-embed-bench[models] @ git+https://github.com/alialrikabi313/arabic-embed-bench"   # PyPI release pending
+pip install "arabic-embed-bench[models]"
 arabic-embed-bench --corpus corpus.jsonl --questions questions.jsonl --out results.md
 arabic-embed-bench ... --models BAAI/bge-m3 intfloat/multilingual-e5-small --device cpu
 ```
