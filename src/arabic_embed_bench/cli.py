@@ -16,7 +16,7 @@ from pathlib import Path
 
 import numpy as np
 
-from config import (
+from .constants import (
     BOOTSTRAP_ROUNDS,
     ENCODE_BATCH,
     EVIDENCE_WINDOW_WORDS,
@@ -127,6 +127,8 @@ def to_markdown(results: list[dict], n_chunks: int) -> str:
 
 
 def main() -> None:
+    # كونسول ويندوز الافتراضي cp1252: نص المساعدة والتقدّم العربي يسقط بـUnicodeEncodeError
+    sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--corpus", type=Path, required=True)
     ap.add_argument("--questions", type=Path, required=True)

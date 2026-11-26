@@ -8,10 +8,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-import embed_bench as eb
-from config import MODEL_SPECS
+from arabic_embed_bench import cli as eb
+from arabic_embed_bench.constants import MODEL_SPECS
 
 _DATA = Path(__file__).resolve().parent.parent.parent / "arabic-rag-bench-data"
 
@@ -45,6 +43,8 @@ def test_paragraph_chunks_drop_wikipedia_headings_and_respect_cap():
 
 
 def test_real_data_ranks_are_valid_with_bge_m3():
+    # يتطلب sentence-transformers (إضافة اختيارية) وبيانات arabic-rag-bench المحلية
+    pytest.importorskip("sentence_transformers")
     q_path, c_path = _DATA / "questions.jsonl", _DATA / "wiki_sample.jsonl"
     if not (q_path.exists() and c_path.exists()):
         pytest.skip("بيانات arabic-rag-bench غير موجودة")
@@ -61,3 +61,15 @@ def test_real_data_ranks_are_valid_with_bge_m3():
     assert out["scored"] >= 10
     assert out["mrr"] > 0.5 and 0 <= out["hit@1"] <= out["hit@5"] <= 1
     assert out["mrr_ci"][0] <= out["mrr"] <= out["mrr_ci"][1]
+
+
+def test_help_survives_cp1252_console(monkeypatch):
+    # صادفناه فعلاً: الأداة المثبَّتة سقطت عند --help في كونسول ويندوز (cp1252) بسبب وصف عربي
+    import io
+
+    buf = io.TextIOWrapper(io.BytesIO(), encoding="cp1252")
+    monkeypatch.setattr(sys, "stdout", buf)
+    monkeypatch.setattr(sys, "argv", ["x", "--help"])
+    with pytest.raises(SystemExit) as e:
+        eb.main()
+    assert e.value.code == 0

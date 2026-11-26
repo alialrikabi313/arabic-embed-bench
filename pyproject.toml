@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "arabic-embed-bench"
+version = "0.1.0"
+description = "Compare Arabic embedding models on your own documents: Hit@k, MRR, bootstrap CIs, prompt-prefix handling"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Ali Hashim Al-Rikabi" }]
+keywords = ["arabic", "nlp", "embeddings", "retrieval", "benchmark", "rag"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Natural Language :: Arabic",
+]
+dependencies = ["numpy>=2.0"]
+
+[project.optional-dependencies]
+models = ["sentence-transformers>=6.0"]
+test = ["pytest"]
+
+[project.scripts]
+arabic-embed-bench = "arabic_embed_bench.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/alialrikabi313/arabic-embed-bench"
+Issues = "https://github.com/alialrikabi313/arabic-embed-bench/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/arabic_embed_bench"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
